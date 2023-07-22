@@ -1,23 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "./ui/Input";
 import Button from "./ui/Button";
 import { SearchIcon } from "../assets/icons";
+import { useThrottle } from "../hooks/useThrottle";
 
-export default function SearchInput({ value, onChange }) {
-  // const [value, setValue] = useState(value);
+export default React.memo(function SearchInput({ value, onChange }) {
+  const [search, setSearch] = useState(value);
+  const { throttleValue } = useThrottle(search, 700);
 
   function handleChange(event) {
-    onChange(event.target.value);
+    setSearch(event.target.value);
   }
 
   function handleClick() {
-    onChange("");
+    setSearch("");
   }
+
+  useEffect(() => {
+    onChange(throttleValue);
+  }, [throttleValue]);
 
   return (
     <div className="row" style={{ position: "relative" }}>
       <Input
-        value={value}
+        value={search}
         onChange={handleChange}
         placeholder="Поиск"
         type="search"
@@ -31,7 +37,7 @@ export default function SearchInput({ value, onChange }) {
       <SearchButton onClick={handleClick} />
     </div>
   );
-}
+});
 
 function SearchButton({ onClick }) {
   return (

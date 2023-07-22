@@ -1,5 +1,5 @@
 import React from "react";
 
-export default function Input(props) {
+export default React.memo(function Input(props) {
   return <input {...props} />;
-}
+});
