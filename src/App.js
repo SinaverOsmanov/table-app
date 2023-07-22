@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
 import { selectPosts } from "./store/slices/postsSlice/selectors";
-import { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { getPostsAsync } from "./store/slices/postsSlice";
 import { selectLoadingPosts } from "./store/slices/postsSlice";
 import Button from "./components/ui/Button";
@@ -15,13 +15,7 @@ function App() {
 
   const [search, setSearch] = useState("");
 
-  const [page, setPage] = useState(1);
-
-  const perPage = 10;
-
-  const numberOfPages = Math.ceil(posts.length / 10);
-
-  const pagePosts = posts.slice((page - 1) * perPage, page * perPage);
+  const setSearchCallback = useCallback((value) => setSearch(value), []);
 
   useEffect(() => {
     if (loading === "IDLE") {
@@ -29,29 +23,40 @@ function App() {
     }
   }, [dispatch, loading]);
 
-  function changePageHandler(page) {
-    setPage(page);
-  }
-
   if (loading !== "SUCCESS") return <div>Загрузка</div>;
 
   return (
     <div className="app m-auto mt-5">
       <div className="d-flex row mb-3">
         <div className="flex-column col-7">
-          <SearchInput value={search} onChange={setSearch} />
+          <SearchInput value={search} onChange={setSearchCallback} />
         </div>
       </div>
-      <div className="d-flex row mb-2">
-        <TableList posts={pagePosts} />
-      </div>
-      <div className="d-flex row">
-        <Pagination
-          numberOfPages={numberOfPages}
-          page={page}
-          onChange={changePageHandler}
-        />
-      </div>
+      <Posts posts={posts} />
+    </div>
+  );
+}
+
+function Posts({ posts }) {
+  const [page, setPage] = useState(1);
+
+  const perPage = 10;
+  const numberOfPages = Math.ceil(posts.length / 10);
+
+  const pagePosts = posts.slice((page - 1) * perPage, page * perPage);
+
+  function changePageHandler(page) {
+    setPage(page);
+  }
+
+  return (
+    <div className="d-flex row mb-2">
+      <TableList posts={pagePosts} />
+      <Pagination
+        numberOfPages={numberOfPages}
+        page={page}
+        onChange={changePageHandler}
+      />
     </div>
   );
 }
