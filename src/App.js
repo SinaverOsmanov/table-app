@@ -49,6 +49,12 @@ function App() {
     setSearch(text);
   }
 
+  const tableHeadTitles = [
+    { title: "ID", id: "id" },
+    { title: "Заголовок", id: "title" },
+    { title: "Описание", id: "body" },
+  ];
+
   if (loading !== "SUCCESS") return <div>Загрузка</div>;
 
   return (
@@ -63,7 +69,7 @@ function App() {
             />
           </div>
         </div>
-        <TableList posts={pagePosts} />
+        <TableList head={tableHeadTitles} body={pagePosts} />
         {/* <div className="">
         <Pagination
           numberOfPages={numberOfPages}
@@ -131,54 +137,93 @@ function Pagination({ page, numberOfPages, onChange }) {
   );
 }
 
-function TableList({ posts, filters, onClick }) {
-  function handleClick(e) {
-    // const id = e.target.closest("button").getAttribute("id");
+function TableList({ head, body }) {
+  const [list, setList] = useState(body);
+  const sortNames = head.reduce((acc, cur) => {
+    acc[cur.id] = "asc";
+    return acc;
+  }, {});
 
-    console.log(e);
+  const [sortList, setSortList] = useState(sortNames);
+
+  function sort(sortId) {
+    const sorted = list.sort((a, b) => {
+      const isANumber = typeof a[sortId] === "number" && !isNaN(a[sortId]);
+      const isBNumber = typeof b[sortId] === "number" && !isNaN(b[sortId]);
+
+      if (sortList[sortId] === "desc") {
+        if (isANumber && isBNumber) {
+          return a[sortId] - b[sortId];
+        }
+
+        if (!isANumber && !isBNumber) {
+          return a[sortId][0].localeCompare(b[sortId][0]);
+        }
+      } else {
+        if (isANumber && isBNumber) {
+          return b[sortId] - a[sortId];
+        }
+
+        if (!isANumber && !isBNumber) {
+          return b[sortId][0].localeCompare(a[sortId][0]);
+        }
+      }
+
+      // Если одно из значений число, то считаем его "меньшим" и ставим первым
+      return isANumber ? -1 : 1;
+    });
+
+    setSortList((prev) => ({
+      ...prev,
+      [sortId]: prev[sortId] === "asc" ? "desc" : "asc",
+    }));
+
+    setList(sorted);
   }
 
-  const tableHeadTitles = {
-    id: "ID",
-    title: "Заголовок",
-    body: "Описание",
-  };
+  useEffect(() => {}, [sortList]);
 
-  if (posts.length === 0)
+  if (body.length === 0)
     return <div className="flex flex-row">Список пуст</div>;
 
   return (
     <Table>
       <thead className="bg-black text-white h-14">
         <tr>
-          <TableHeaderTitleWithArrow>ID</TableHeaderTitleWithArrow>
-          <TableHeaderTitleWithArrow>Заголовок</TableHeaderTitleWithArrow>
-          <TableHeaderTitleWithArrow>Описание</TableHeaderTitleWithArrow>
+          {head.map((tableItem) => {
+            return (
+              <TableHeaderTitleWithArrow
+                key={tableItem.id}
+                item={tableItem}
+                onClick={sort}
+              />
+            );
+          })}
         </tr>
       </thead>
 
       <tbody className="font-medium text-[13px] border border-light-gray">
-        {posts.map((post, index) => (
+        {list.map((item, index) => (
           <tr
-            key={post.id}
+            key={item.id}
             className={`${
-              index === posts.length - 1 ? "" : "border-b border-light-gray"
+              index === list.length - 1 ? "" : "border-b border-light-gray"
             } min-h-[56px]`}
           >
             <td className="min-w-[110px] pt-6 pb-6 border-r border-light-gray">
               <div className="flex flex-col items-center">
-                <div className="flex flex-row items-center">{post.id}</div>
+                <div className="flex flex-row items-center">{item.id}</div>
               </div>
             </td>
             <td className="w-6/12 border-r p-2 border-light-gray">
               <div className="flex flex-col">
-                <div className="flex flex-row">{post.title}</div>
+                <div className="flex flex-row">{item.title}</div>
               </div>
             </td>
             <td className="w-5/12">
               <div className="flex flex-col p-2">
                 <div className="flex flex-row justify-content-center items-center">
-                  {post.body}
+                  {item.body}
                 </div>
               </div>
             </td>
@@ -191,13 +236,16 @@ function TableList({ posts, filters, onClick }) {
 
 export default App;
 
-function TableHeaderTitleWithArrow({ children, onClick }) {
+function TableHeaderTitleWithArrow({ item, onClick }) {
   return (
     <th scope="col">
       <div className="flex flex-row items-center gap-10 justify-center">
-        <div className="flex-col">{children}</div>
-        <div className="flex-col col-">
-          <FilterDownArrow onClick={() => onClick()} />
+        <div className="flex-col">{item.title}</div>
+        <div
+          className="flex-col cursor-pointer"
+          onClick={() => onClick(item.id)}
+        >
+          <FilterDownArrow />
         </div>
       </div>
     </th>
