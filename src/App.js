@@ -151,26 +151,15 @@ function TableList({ head, body }) {
       const isANumber = typeof a[sortId] === "number" && !isNaN(a[sortId]);
       const isBNumber = typeof b[sortId] === "number" && !isNaN(b[sortId]);
 
-      if (sortList[sortId] === "desc") {
-        if (isANumber && isBNumber) {
-          return a[sortId] - b[sortId];
-        }
-
-        if (!isANumber && !isBNumber) {
-          return a[sortId][0].localeCompare(b[sortId][0]);
-        }
-      } else {
-        if (isANumber && isBNumber) {
-          return b[sortId] - a[sortId];
-        }
-
-        if (!isANumber && !isBNumber) {
-          return b[sortId][0].localeCompare(a[sortId][0]);
-        }
+      if (isANumber && isBNumber) {
+        return sortList[sortId] === "asc"
+          ? b[sortId] - a[sortId]
+          : a[sortId] - b[sortId];
       }
 
-      // Если одно из значений число, то считаем его "меньшим" и ставим первым
-      return isANumber ? -1 : 1;
+      return sortList[sortId] === "asc"
+        ? b[sortId][0].localeCompare(a[sortId][0])
+        : a[sortId][0].localeCompare(b[sortId][0]);
     });
 
     setSortList((prev) => ({
@@ -180,8 +169,6 @@ function TableList({ head, body }) {
 
     setList(sorted);
   }
-
-  useEffect(() => {}, [sortList]);
 
   if (body.length === 0)
     return <div className="flex flex-row">Список пуст</div>;
