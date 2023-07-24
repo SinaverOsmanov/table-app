@@ -1,20 +1,10 @@
-@import 'bootstrap/dist/css/bootstrap.css';
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,700&display=swap');
 
 body {
   font-size: 14px;
   font-family: 'Roboto', sans-serif;
 }
 
-button {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  height: auto;
-}
-
-input, input:focus-visible {
+/* input, input:focus-visible {
   background: none;
   border: none;
   outline: none;
@@ -29,29 +19,45 @@ input[type="search"]::-webkit-search-results-decoration {
 
 input[type='search']::placeholder {
   color: #B2B7BF;
-}
+} */
 
 /* Custom CSS to remove borders for thead */
-
+/* 
 .custom-table thead th {
   border: none;
   background: #474955;
   color: #fff;
-  padding: 15px 0;
-}
+} */
 
 /* Add borders for tbody */
-.custom-table tbody td {
+/* .custom-table tbody td {
   border: 1px solid #E3E6EC; /* Replace with your desired border color */
-}
 
-.app {
+/* 
+table {
+  font-weight: 500;
+} */
+
+/* table thead{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+/* table tbody {
+  font-size: 13px
+} */
+
+/* .app {
+  margin: 0 auto;
+} */
+
+.wrapper {
   max-width: 1232px;
   /* height: 820px; */
   flex-shrink: 0;
   background: #FFF;
   box-shadow: 0px 4px 27px 0px rgba(230, 231, 234, 0.78);
-  padding: 20px 75px;
 }
 
 .pagination button{
