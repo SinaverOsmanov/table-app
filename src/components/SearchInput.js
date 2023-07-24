@@ -23,7 +23,7 @@ export default React.memo(function SearchInput({ value, onChange, onClick }) {
         onChange={handleChange}
         placeholder="Поиск"
         type="search"
-        className="bg-bg-input pt-4 pb-4 pl-4 pr-5 placeholder:text-gray-dark w-full"
+        className="bg-bg-input py-4 pl-4 pr-10 placeholder:text-gray-dark w-full"
       />
       <div className={"absolute top-0 right-0 h-full flex mr-6"}>
         <SearchButton onClick={handleClick} />
