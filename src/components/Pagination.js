@@ -1,21 +1,38 @@
+import { calculateVisiblePages } from "../utils/calculateVisiblePages";
 import { FlexCol, FlexRow } from "../utils/flexLayouts";
+import { updateURL } from "../utils/updateURL";
 import Button from "./ui/Button";
 
 const maxViliblePages = 5;
 
 export function Pagination({ page, numberOfPages, onChange }) {
-  const visiblePages = calculateVisiblePages(page, numberOfPages);
+  const visiblePages = calculateVisiblePages(
+    page,
+    numberOfPages,
+    maxViliblePages
+  );
+
+  function handlePageChange(newPageNumber) {
+    if (
+      newPageNumber !== page &&
+      newPageNumber >= 1 &&
+      newPageNumber <= numberOfPages
+    ) {
+      onChange(newPageNumber);
+      updateURL(newPageNumber);
+    }
+  }
 
   function changeActivePage(pageNumber) {
-    onChange(pageNumber);
+    handlePageChange(pageNumber);
   }
 
   function nextPage() {
-    onChange(page + 1);
+    handlePageChange(page + 1);
   }
 
   function prevPage() {
-    onChange(page - 1);
+    handlePageChange(page - 1);
   }
 
   return (
@@ -52,16 +69,4 @@ export function Pagination({ page, numberOfPages, onChange }) {
       </FlexCol>
     </nav>
   );
-}
-
-function calculateVisiblePages(page, numberOfPages) {
-  const pagesArray = Array.from(
-    { length: numberOfPages },
-    (_, index) => index + 1
-  );
-  const startPage = Math.max(1, page - Math.floor(maxViliblePages / 2));
-  const endPage = Math.min(numberOfPages, startPage + maxViliblePages - 1);
-  const visiblePages = pagesArray.slice(startPage - 1, endPage);
-
-  return visiblePages;
 }
