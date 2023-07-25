@@ -22,7 +22,7 @@ export default React.memo(function SearchInput({ value, onSearchButtonClick }) {
         onChange={handleChange}
         placeholder="Поиск"
         type="search"
-        className="bg-gray py-4 pl-4 pr-14 placeholder:text-gray-dark w-full"
+        className="bg-gray py-4 pl-4 pr-14 placeholder:text-gray-dark w-full" //py - Отступы по вертикали
       />
       <div className={"absolute top-0 right-0 h-full flex mr-6"}>
         <SearchButton onClick={handleSearchClick} />

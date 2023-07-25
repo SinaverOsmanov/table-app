@@ -11,20 +11,21 @@ export function TableList({ head, body }) {
 
   return (
     <Table className="custom-table">
+      {/* Заголовок таблицы */}
       <thead className="bg-black text-white sm:h-14 xs:h-20">
         <tr>
-          {head.map((tableItem) => {
-            return (
-              <SortTitleWithArrow
-                key={tableItem.id}
-                item={tableItem}
-                onClick={sort}
-                sortList={sortList}
-              />
-            );
-          })}
+          {head.map((tableItem) => (
+            <SortTitleWithArrow
+              key={tableItem.id}
+              item={tableItem}
+              onClick={sort}
+              sortList={sortList}
+            />
+          ))}
         </tr>
       </thead>
+
+      {/* Тело таблицы */}
       <tbody className="border border-light-gray lg:text-md md:text-xs">
         {sortedData.map((item) => (
           <ListItem item={item} key={item.id} />

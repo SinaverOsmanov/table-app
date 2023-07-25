@@ -1,3 +1,4 @@
+import { FlexCol, FlexRow } from "../utils/flexLayouts";
 import Button from "./ui/Button";
 
 const maxViliblePages = 5;
@@ -27,17 +28,17 @@ export function Pagination({ page, numberOfPages, onChange }) {
   return (
     <nav
       aria-label="Page navigation"
-      className="pagination flex flex-row mt-4 justify-between items-baseline md:px-10 sm:px-5 xs:px-0"
+      className="pagination flex flex-row mt-4 justify-between md:px-10 sm:px-5 items-baseline xs:px-0" // md:px-10-отступы слева и справа для экрана(768px)
     >
-      <div className="flex flex-col w-1/3">
-        <div className="flex flex-row justify-start xs:text-lg md:text-xl">
+      <FlexCol className="w-1/3">
+        <FlexRow className="justify-start xs:text-lg md:text-2xl">
           <Button onClick={prevPage} disabled={page === 1}>
             Назад
           </Button>
-        </div>
-      </div>
-      <div className="flex flex-col page-numbers w-1/3">
-        <div className="flex flex-row justify-center space-x-3">
+        </FlexRow>
+      </FlexCol>
+      <FlexCol className="page-numbers w-1/3">
+        <FlexRow className="justify-center space-x-3">
           {visiblePages.map((pageNumber) => (
             <Button
               onClick={() => changeActivePage(pageNumber)}
@@ -47,15 +48,15 @@ export function Pagination({ page, numberOfPages, onChange }) {
               {pageNumber}
             </Button>
           ))}
-        </div>
-      </div>
-      <div className="flex flex-col w-1/3">
-        <div className="flex flex-row justify-end xs:text-lg">
+        </FlexRow>
+      </FlexCol>
+      <FlexCol className="w-1/3">
+        <FlexRow className="justify-end md:text-2xl xs:text-lg">
           <Button onClick={nextPage} disabled={page > numberOfPages - 1}>
             Далее
           </Button>
-        </div>
-      </div>
+        </FlexRow>
+      </FlexCol>
     </nav>
   );
 }
