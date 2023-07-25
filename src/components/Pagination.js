@@ -4,14 +4,7 @@ import Button from "./ui/Button";
 const maxViliblePages = 5;
 
 export function Pagination({ page, numberOfPages, onChange }) {
-  const pagesArray = Array.from(
-    { length: numberOfPages },
-    (_, index) => index + 1
-  );
-
-  const startPage = Math.max(1, page - Math.floor(maxViliblePages / 2));
-  const endPage = Math.min(numberOfPages, startPage + maxViliblePages - 1);
-  const visiblePages = pagesArray.slice(startPage - 1, endPage);
+  const visiblePages = calculateVisiblePages(page, numberOfPages);
 
   function changeActivePage(pageNumber) {
     onChange(pageNumber);
@@ -59,4 +52,16 @@ export function Pagination({ page, numberOfPages, onChange }) {
       </FlexCol>
     </nav>
   );
+}
+
+function calculateVisiblePages(page, numberOfPages) {
+  const pagesArray = Array.from(
+    { length: numberOfPages },
+    (_, index) => index + 1
+  );
+  const startPage = Math.max(1, page - Math.floor(maxViliblePages / 2));
+  const endPage = Math.min(numberOfPages, startPage + maxViliblePages - 1);
+  const visiblePages = pagesArray.slice(startPage - 1, endPage);
+
+  return visiblePages;
 }
