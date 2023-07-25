@@ -10,6 +10,14 @@ module.exports = {
       green: "#7EBC3C",
       "gray-dark": "#B2B7BF",
     },
-    extend: {},
+    extend: {
+      screens: {
+        xs: "316px",
+        sm: "375px",
+        md: "768px",
+        lg: "976px",
+        xl: "1440px",
+      },
+    },
   },
 };

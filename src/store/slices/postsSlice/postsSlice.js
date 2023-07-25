@@ -27,7 +27,7 @@ export const getPostsAsync = () => async (dispatch) => {
   try {
     dispatch(setLoading("LOADING"));
     const response = await fetch(
-      `https://jsonplaceholder.typicode.com/posts?_limit=50`
+      `https://jsonplaceholder.typicode.com/posts?_limit=100`
     );
 
     const result = await response.json();

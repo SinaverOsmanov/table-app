@@ -50,9 +50,9 @@ function App() {
 
   return (
     <div className="app m-5">
-      <div className="wrapper p-[74px]">
+      <div className="wrapper lg:p-[74px] md:p-[30px] xs:p-[15px]">
         <div className="w-full mb-4">
-          <div className="w-1/2">
+          <div className="lg:w-1/2 sm:w-full">
             <SearchInput value={search} onSearchButtonClick={handleClick} />
           </div>
         </div>

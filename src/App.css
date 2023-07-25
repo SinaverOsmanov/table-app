@@ -14,13 +14,9 @@
   min-height: 56px;
 }
 
-.custom-table tbody tr td:first-child {
-  min-width: 110px;
-}
-
 .pagination button {
   color: #474955;
-  font-size: 24px;
+  /* font-size: 24px; */
   font-weight: 500;
 }
 

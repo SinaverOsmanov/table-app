@@ -41,5 +41,5 @@ export const useSortableTable = (body, head) => {
     setSortList(sortNames);
   }, [head]);
 
-  return { sortedData: list, sort };
+  return { sortedData: list, sort, sortList };
 };
